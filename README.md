@@ -13,7 +13,7 @@
 <p align="center"><img src="./assets/ui/title-01.svg" width="100%" alt="01 — Hakkımda"></p>
 
 <p align="center">
-  <img src="./assets/ui/about.svg" width="100%" alt="Bilgisayar mühendisiyim. Web siteleri ve mobil uygulamalar geliştiriyorum; en güçlü olduğum alan frontend. Sade ama sıradan olmayan, modern ve yaratıcı tasarımların peşindeyim. Şu an AI Film &amp; Dizi Öneri üzerinde çalışıyorum. BTK Akademi Ankara AI Hackathon 2026'da takımla AquaSmart'ı geliştirdik.">
+  <img src="./assets/ui/about.svg" width="100%" alt="Bilgisayar mühendisiyim. Web siteleri ve mobil uygulamalar geliştiriyorum; en güçlü olduğum alan frontend. Sade ama sıradan olmayan, modern ve yaratıcı tasarımların peşindeyim. Her projede fikirden yayına aynı döngüyü izliyorum: dinle, tasarla, kodla, parlat. BTK Akademi Ankara AI Hackathon 2026'da takımla AquaSmart'ı geliştirdik.">
 </p>
 <p align="right">
   <a href="https://github.com/BurakYucelPY/AquaSmart"><img src="./assets/ui/btn-repo.svg" height="40" alt="AquaSmart projesini incele"></a>
@@ -79,8 +79,7 @@
 <p align="center"><img src="./assets/ui/title-04.svg" width="100%" alt="04 — GitHub'ta"></p>
 
 <p align="center">
-  <img height="170" src="https://github-readme-stats.vercel.app/api?username=GurkanGurdal&show_icons=true&hide_border=true&count_private=true&locale=tr&bg_color=0a0a12&title_color=a78bfa&icon_color=22d3ee&text_color=d4d4d8&ring_color=7c5cff&border_radius=18" alt="GitHub istatistikleri">
-  <img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=GurkanGurdal&layout=compact&hide_border=true&locale=tr&bg_color=0a0a12&title_color=a78bfa&text_color=d4d4d8&border_radius=18" alt="En çok kullanılan diller">
+  <img src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/stats.svg" width="100%" alt="GitHub istatistikleri: 3D katkı takvimi, yıllık katkı, en uzun seri, en üretken gün, repo sayısı ve dil dağılımı">
 </p>
 
 <p align="center">
