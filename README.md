@@ -7,6 +7,7 @@
   <a href="#teknolojiler"><img src="./assets/ui/nav-02.svg" height="40" alt="02 Teknolojiler"></a>
   <a href="#projeler"><img src="./assets/ui/nav-03.svg" height="40" alt="03 Projeler"></a>
   <a href="#github"><img src="./assets/ui/nav-04.svg" height="40" alt="04 GitHub'ta"></a>
+  <a href="#iletisim"><img src="./assets/ui/nav-05.svg" height="40" alt="05 İletişim"></a>
 </p>
 
 <a name="hakkimda"></a>
@@ -93,6 +94,14 @@
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake-dark.svg">
     <img alt="Katkı grafiğinde dolaşan yılan animasyonu" src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake.svg" width="100%">
   </picture>
+</p>
+
+<a name="iletisim"></a>
+<p align="center"><img src="./assets/ui/title-05.svg" width="100%" alt="05 — İletişim"></p>
+
+<p align="center">
+  <a href="https://www.linkedin.com/in/g%C3%BCrkan-g%C3%BCrdal-1597ba35a/"><img src="./assets/ui/contact-linkedin.svg" width="49%" alt="LinkedIn'de bağlantı kur: Gürkan Gürdal"></a>
+  <a href="mailto:grkngurdal@gmail.com?subject=Merhaba%20G%C3%BCrkan"><img src="./assets/ui/contact-mail.svg" width="49%" alt="E-posta gönder: grkngurdal@gmail.com"></a>
 </p>
 
 <p align="center">
