@@ -56,6 +56,7 @@ def T(font, s, size, x, y, fill, anchor="start", tr=0.0):
 
 # ------------------------------------------------------------------ data
 QUERY = """query($login:String!){ user(login:$login){
+  allRepos: repositories(ownerAffiliations:OWNER, privacy:PUBLIC){ totalCount }
   repositories(ownerAffiliations:OWNER, isFork:false, privacy:PUBLIC, first:100){ totalCount
     nodes{ stargazerCount languages(first:10, orderBy:{field:SIZE,direction:DESC}){ edges{ size node{ name color } } } } }
   contributionsCollection{ contributionCalendar{ totalContributions weeks{ contributionDays{ contributionCount date weekday } } } } } }"""
@@ -82,7 +83,7 @@ def mock():
             d += timedelta(days=1)
         weeks.append({"contributionDays": wk})
     langs = [("JavaScript", "#f1e05a", 29), ("TypeScript", "#3178c6", 18), ("Dart", "#00B4AB", 16), ("Jupyter Notebook", "#DA5B0B", 14), ("HTML", "#e34c26", 13), ("CSS", "#663399", 10)]
-    return {"repositories": {"totalCount": 11, "nodes": [{"stargazerCount": 1, "languages": {"edges": [{"size": s * 1000, "node": {"name": n, "color": c}} for n, c, s in langs]}}]},
+    return {"allRepos": {"totalCount": 11}, "repositories": {"totalCount": 10, "nodes": [{"stargazerCount": 1, "languages": {"edges": [{"size": s * 1000, "node": {"name": n, "color": c}} for n, c, s in langs]}}]},
             "contributionsCollection": {"contributionCalendar": {"totalContributions": sum(x["contributionCount"] for w in weeks for x in w["contributionDays"]), "weeks": weeks}}}
 
 def summarize(u):
@@ -104,7 +105,7 @@ def summarize(u):
     tot = sum(v[0] for v in langs.values()) or 1
     top = sorted(langs.items(), key=lambda kv: -kv[1][0])[:6]
     return {"total": cal["totalContributions"], "longest": longest, "best": best,
-            "repos": u["repositories"]["totalCount"], "weeks": cal["weeks"],
+            "repos": u.get("allRepos", u["repositories"])["totalCount"], "weeks": cal["weeks"],
             "langs": [(n, c, v / tot * 100) for n, (v, c) in top]}
 
 # ------------------------------------------------------------------ render
