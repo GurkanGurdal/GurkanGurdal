@@ -132,7 +132,8 @@ def iso_calendar(weeks, ox, oy, cw=8.4, ch=3.5, hmax=70, n_weeks=53):
     out = []
     for wi, di, c in items:
         x = ox + (wi - di) * cw; y = oy + (wi + di) * ch
-        lvl = 0 if c == 0 else min(4, 1 + int(3.999 * c / mx))
+        import math
+        lvl = 0 if c == 0 else (2 if mx <= 1 else min(4, 1 + int(3.999 * math.log(c) / math.log(mx))))
         h = 2.5 if c == 0 else 6 + (hmax - 6) * (c / mx) ** 0.8
         top, left, right = LEVELS[lvl]
         k = 0.88
@@ -206,7 +207,7 @@ def render(s):
 
 # ------------------------------------------------------------------ outro: imleç katkı grafiğini boyar
 I6 = Font("inter", 600)
-PAINT = ["#1d1d2c", "#35286e", "#5136b8", "#7c5cff", "#c084fc"]
+PAINT = ["#1d1d2c", "#5b45c9", "#7c5cff", "#a78bfa", "#e9d5ff"]
 
 def render_outro(s):
     W, H = 900, 400
@@ -220,7 +221,11 @@ def render_outro(s):
     gx = (W - gw) / 2; gy = 152
     cnts = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
     mx = max(cnts) if cnts and max(cnts) > 0 else 1
-    def lvl(c): return 0 if c == 0 else min(4, 1 + int(3.999 * c / mx))
+    import math
+    def lvl(c):
+        if c == 0: return 0
+        if mx <= 1: return 2
+        return min(4, 1 + int(3.999 * math.log(c) / math.log(mx)))
 
     body = [f'<clipPath id="cl"><rect width="{W}" height="{H}" rx="20"/></clipPath><g clip-path="url(#cl)"><rect width="{W}" height="{H}" fill="{BG}"/>',
             f'<circle cx="120" cy="0" r="300" fill="url(#gv)"/><circle cx="{W}" cy="{H}" r="300" fill="url(#gc)"/><rect width="{W}" height="{H}" fill="url(#dots)"/>']
@@ -250,6 +255,10 @@ def render_outro(s):
             if l == 0: continue
             paint.append(f'<rect class="pc w{wi}" x="{gx + wi*pitch:.1f}" y="{gy + d["weekday"]*pitch:.1f}" width="{cell}" height="{cell}" rx="2.5" fill="{PAINT[l]}"/>')
     body.append("".join(paint))
+    # fırça izi: imleci takip eden ışıklı şerit
+    gh_ = 6 * pitch + cell
+    body.append(f'<linearGradient id="br" x1="0" x2="1"><stop offset="0" stop-color="{V}" stop-opacity="0"/><stop offset=".85" stop-color="#a78bfa" stop-opacity=".35"/><stop offset="1" stop-color="#e9d5ff" stop-opacity=".7"/></linearGradient>'
+                f'<rect class="br" x="{gx - 70:.1f}" y="{gy - 4:.1f}" width="72" height="{gh_ + 8:.1f}" rx="4" fill="url(#br)"/>')
     # seçim çerçevesi + etiket
     fx0, fy0 = gx - 8, gy - 8; fx1, fy1 = gx + gw + 8, gy + 6 * pitch + cell + 8
     lab = f'son 1 yıl · {s["total"]} katkı'
@@ -276,6 +285,8 @@ def render_outro(s):
               f"100%{{transform:translate({W+20}px,{gy-40}px)}}}}")
     css = ("".join(kf) + ".pc{transform-box:fill-box;transform-origin:center}"
            + cur_kf + f".cur{{animation:cur {CYCLE}s cubic-bezier(.45,0,.55,1) infinite}}"
+           + f".br{{opacity:0;animation:br {CYCLE}s linear infinite}}@keyframes br{{0%,{SWEEP[0]*100-.5:.1f}%{{opacity:0;transform:translateX(0)}}{SWEEP[0]*100+1:.1f}%{{opacity:1;transform:translateX(0)}}"
+             f"{SWEEP[1]*100:.1f}%{{opacity:1;transform:translateX({gw:.0f}px)}}{SWEEP[1]*100+3:.1f}%,100%{{opacity:0;transform:translateX({gw:.0f}px)}}}}"
            + f".fr{{opacity:0;animation:fr {CYCLE}s ease infinite}}@keyframes fr{{0%,{SWEEP[1]*100+2:.0f}%{{opacity:0}}{SWEEP[1]*100+6:.0f}%,{HOLD_END*100:.0f}%{{opacity:1}}{FADE_END*100:.0f}%,100%{{opacity:0}}}}"
            + ".wv{animation:wv linear infinite}@keyframes wv{from{transform:translateX(0)}to{transform:translateX(-600px)}}"
            + "@media (prefers-reduced-motion:reduce){*{animation:none!important}.pc,.fr{opacity:1}}")
