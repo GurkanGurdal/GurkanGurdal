@@ -204,12 +204,95 @@ def render(s):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{alt}">'
             f'<title>{alt}</title><style>{css}</style>{defs}{"".join(body)}</svg>')
 
+# ------------------------------------------------------------------ outro: imleç katkı grafiğini boyar
+I6 = Font("inter", 600)
+PAINT = ["#1d1d2c", "#35286e", "#5136b8", "#7c5cff", "#c084fc"]
+
+def render_outro(s):
+    W, H = 900, 400
+    CYCLE = 12.0                     # saniye
+    SWEEP = (0.06, 0.46)             # imlecin grafiği boyadığı aralık (döngünün oranı)
+    HOLD_END, FADE_END = 0.86, 0.93  # boyalı grafik bu noktaya kadar durur, sonra silinir
+    weeks = s["weeks"][-53:]
+    n = len(weeks)
+    pitch, cell = 14.6, 11.6
+    gw = n * pitch - (pitch - cell)
+    gx = (W - gw) / 2; gy = 152
+    cnts = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
+    mx = max(cnts) if cnts and max(cnts) > 0 else 1
+    def lvl(c): return 0 if c == 0 else min(4, 1 + int(3.999 * c / mx))
+
+    body = [f'<clipPath id="cl"><rect width="{W}" height="{H}" rx="20"/></clipPath><g clip-path="url(#cl)"><rect width="{W}" height="{H}" fill="{BG}"/>',
+            f'<circle cx="120" cy="0" r="300" fill="url(#gv)"/><circle cx="{W}" cy="{H}" r="300" fill="url(#gc)"/><rect width="{W}" height="{H}" fill="url(#dots)"/>']
+    # dalgalar
+    for col, op, amp, dur, yy in [(V, .32, 14, 9, 330), (C, .2, 10, 12, 344), (P, .22, 8, 7, 358)]:
+        d = f"M0 {yy}" + "".join(f" q150 {-amp if k % 2 == 0 else amp} 300 0" for k in range(8)) + f" V{H} H0 Z"
+        body.append(f'<path class="wv" style="animation-duration:{dur}s" d="{d}" fill="{col}" fill-opacity="{op}"/>')
+    # başlık
+    body.append(T(SG, "Okuduğun için teşekkürler.", 32, W / 2, 70, "#fafafa", anchor="middle", tr=-0.02))
+    body.append(T(I5, "Bir fikrin mi var? Birlikte tasarlayıp kodlayalım.", 18, W / 2, 104, "#b4b4bf", anchor="middle"))
+    # zemin ızgarası
+    base = []
+    for wi, w in enumerate(weeks):
+        for d in w["contributionDays"]:
+            base.append(f'<rect x="{gx + wi*pitch:.1f}" y="{gy + d["weekday"]*pitch:.1f}" width="{cell}" height="{cell}" rx="2.5" fill="{PAINT[0]}"/>')
+    body.append("".join(base))
+    # boya: her hafta kendi zamanlamasıyla
+    kf, paint = [], []
+    for wi, w in enumerate(weeks):
+        p0 = SWEEP[0] + (SWEEP[1] - SWEEP[0]) * wi / max(n - 1, 1)
+        p1 = p0 + 0.015
+        kf.append(f"@keyframes k{wi}{{0%,{p0*100:.2f}%{{opacity:0;transform:scale(.2)}}{p1*100:.2f}%{{opacity:1;transform:scale(1.25)}}"
+                  f"{(p1+0.01)*100:.2f}%,{HOLD_END*100:.0f}%{{opacity:1;transform:scale(1)}}{FADE_END*100:.0f}%,100%{{opacity:0;transform:scale(1)}}}}"
+                  f".w{wi}{{animation:k{wi} {CYCLE}s linear infinite}}")
+        for d in w["contributionDays"]:
+            l = lvl(d["contributionCount"])
+            if l == 0: continue
+            paint.append(f'<rect class="pc w{wi}" x="{gx + wi*pitch:.1f}" y="{gy + d["weekday"]*pitch:.1f}" width="{cell}" height="{cell}" rx="2.5" fill="{PAINT[l]}"/>')
+    body.append("".join(paint))
+    # seçim çerçevesi + etiket
+    fx0, fy0 = gx - 8, gy - 8; fx1, fy1 = gx + gw + 8, gy + 6 * pitch + cell + 8
+    lab = f'son 1 yıl · {s["total"]} katkı'
+    lw = MONO.width(lab, 12) + 18
+    handles = "".join(f'<rect x="{x-4:.1f}" y="{y-4:.1f}" width="8" height="8" rx="1.5" fill="#fff" stroke="{V}" stroke-width="1.5"/>'
+                      for x, y in [(fx0, fy0), (fx1, fy0), (fx0, fy1), (fx1, fy1)])
+    body.append(f'<g class="fr"><rect x="{fx0:.1f}" y="{fy0:.1f}" width="{fx1-fx0:.1f}" height="{fy1-fy0:.1f}" fill="{V}" fill-opacity=".05" stroke="{V}" stroke-width="1.5"/>{handles}'
+                f'<rect x="{(fx0+fx1)/2 - lw/2:.1f}" y="{fy1+10:.1f}" width="{lw:.1f}" height="20" rx="5" fill="{V}"/>'
+                + T(MONO, lab, 12, (fx0 + fx1) / 2, fy1 + 24, "#fff", anchor="middle") + "</g>")
+    # imleç
+    tag_w = I6.width("Gürkan", 12) + 16
+    body.append(f'<g class="cur"><path d="M0 0 L0 20 L5.5 15 L9.5 24 L13 22.5 L9 13.8 L16 13.8 Z" fill="{V}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>'
+                f'<rect x="14" y="22" width="{tag_w:.0f}" height="20" rx="6" fill="{V}"/>' + T(I6, "Gürkan", 12, 22, 36, "#fff") + "</g>")
+    body.append(f'</g><rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="19.5" fill="none" stroke="#fff" stroke-opacity=".08"/>')
+
+    x0, x1 = gx + 2, gx + gw - 2
+    y_mid = gy + 3 * pitch
+    cur_kf = (f"@keyframes cur{{0%{{transform:translate({W+20}px,{gy-40}px)}}"
+              f"{SWEEP[0]*100:.1f}%{{transform:translate({x0:.0f}px,{y_mid:.0f}px)}}"
+              + "".join(f"{(SWEEP[0]+(SWEEP[1]-SWEEP[0])*k/8)*100:.1f}%{{transform:translate({x0+(x1-x0)*k/8:.0f}px,{y_mid + (22 if k % 2 else -22):.0f}px)}}" for k in range(1, 8))
+              + f"{SWEEP[1]*100:.1f}%{{transform:translate({x1:.0f}px,{y_mid:.0f}px)}}"
+              f"52%,60%{{transform:translate({fx0:.0f}px,{fy1:.0f}px)}}"
+              f"{HOLD_END*100:.0f}%{{transform:translate({fx0+30:.0f}px,{fy1+40:.0f}px)}}"
+              f"100%{{transform:translate({W+20}px,{gy-40}px)}}}}")
+    css = ("".join(kf) + ".pc{transform-box:fill-box;transform-origin:center}"
+           + cur_kf + f".cur{{animation:cur {CYCLE}s cubic-bezier(.45,0,.55,1) infinite}}"
+           + f".fr{{opacity:0;animation:fr {CYCLE}s ease infinite}}@keyframes fr{{0%,{SWEEP[1]*100+2:.0f}%{{opacity:0}}{SWEEP[1]*100+6:.0f}%,{HOLD_END*100:.0f}%{{opacity:1}}{FADE_END*100:.0f}%,100%{{opacity:0}}}}"
+           + ".wv{animation:wv linear infinite}@keyframes wv{from{transform:translateX(0)}to{transform:translateX(-600px)}}"
+           + "@media (prefers-reduced-motion:reduce){*{animation:none!important}.pc,.fr{opacity:1}}")
+    defs = ('<defs><pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#fff" fill-opacity=".07"/></pattern>'
+            f'<radialGradient id="gv"><stop offset="0" stop-color="{V}" stop-opacity=".35"/><stop offset="1" stop-color="{V}" stop-opacity="0"/></radialGradient>'
+            f'<radialGradient id="gc"><stop offset="0" stop-color="{C}" stop-opacity=".2"/><stop offset="1" stop-color="{C}" stop-opacity="0"/></radialGradient></defs>')
+    alt = f'Okuduğun için teşekkürler. Gürkan imleci son bir yılın katkı grafiğini boyuyor: {s["total"]} katkı.'
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{alt}">'
+            f'<title>{alt}</title><style>{css}</style>{defs}{"".join(body)}</svg>')
+
 if __name__ == "__main__":
-    if sys.argv[1] == "--mock":
-        data, out = mock(), sys.argv[2]
-    else:
-        data, out = fetch(sys.argv[1], os.environ["GITHUB_TOKEN"]), sys.argv[2]
-    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
+    # profile_stats.py <kullanıcı|--mock> <çıktı klasörü>  → stats.svg ve outro.svg
+    data = mock() if sys.argv[1] == "--mock" else fetch(sys.argv[1], os.environ["GITHUB_TOKEN"])
+    out = sys.argv[2]
+    if out.endswith(".svg"): out = os.path.dirname(out) or "."
+    os.makedirs(out, exist_ok=True)
     s = summarize(data)
-    open(out, "w").write(render(s))
+    open(os.path.join(out, "stats.svg"), "w").write(render(s))
+    open(os.path.join(out, "outro.svg"), "w").write(render_outro(s))
     print("yazıldı:", out, {k: v for k, v in s.items() if k != "weeks"})

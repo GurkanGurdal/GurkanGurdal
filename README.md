@@ -89,13 +89,6 @@
   <img src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/stats.svg" width="100%" alt="GitHub istatistikleri: 3D katkı takvimi, yıllık katkı, en uzun seri, en üretken gün, repo sayısı ve dil dağılımı">
 </p>
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake-dark.svg">
-    <img alt="Katkı grafiğinde dolaşan yılan animasyonu" src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake.svg" width="100%">
-  </picture>
-</p>
-
 <a name="iletisim"></a>
 <p align="center"><img src="./assets/ui/title-05.svg" width="100%" alt="05 — İletişim"></p>
 
@@ -105,5 +98,5 @@
 </p>
 
 <p align="center">
-  <img src="./assets/ui/footer.svg" width="100%" alt="Okuduğun için teşekkürler. Bir fikrin mi var? Birlikte tasarlayıp kodlayalım.">
+  <img src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/outro.svg" width="100%" alt="Okuduğun için teşekkürler. Bir fikrin mi var? Birlikte tasarlayıp kodlayalım. Gürkan imleci son bir yılın katkı grafiğini boyuyor.">
 </p>
