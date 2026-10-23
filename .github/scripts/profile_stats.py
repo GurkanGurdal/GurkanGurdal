@@ -119,7 +119,7 @@ def tile(x, y, w, h):
 def label(x, y, s, col="#a78bfa"):
     return T(MONO, s, 13, x, y, col, tr=0.06)
 
-def iso_calendar(weeks, ox, oy, cw=16.2, ch=6.4, hmax=58, n_weeks=24):
+def iso_calendar(weeks, ox, oy, cw=8.4, ch=3.5, hmax=70, n_weeks=53):
     weeks = weeks[-n_weeks:]
     cnts = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
     mx = max(cnts) if cnts and max(cnts) > 0 else 1
@@ -138,7 +138,7 @@ def iso_calendar(weeks, ox, oy, cw=16.2, ch=6.4, hmax=58, n_weeks=24):
         N = (x, y + ch * (1 - k)); E = (x + cw * k, y + ch); S = (x, y + ch * (1 + k)); W_ = (x - cw * k, y + ch)
         up = lambda p: (p[0], p[1] - h)
         pts = lambda *ps: " ".join(f"{a:.1f},{b:.1f}" for a, b in ps)
-        g = (f'<g class="b" style="animation-delay:{wi*0.03:.2f}s">'
+        g = (f'<g class="b" style="animation-delay:{wi*0.015:.2f}s">'
              f'<polygon points="{pts(up(W_), up(S), S, W_)}" fill="{left}"/>'
              f'<polygon points="{pts(up(S), up(E), E, S)}" fill="{right}"/>'
              f'<polygon points="{pts(up(N), up(E), up(S), up(W_))}" fill="{top}"/></g>')
@@ -151,14 +151,14 @@ def render(s):
     body = [f'<clipPath id="cl"><rect width="{W}" height="{H}" rx="20"/></clipPath><g clip-path="url(#cl)"><rect width="{W}" height="{H}" fill="{BG}"/>',
             f'<circle cx="140" cy="0" r="320" fill="url(#gv)"/><circle cx="{W}" cy="{H}" r="300" fill="url(#gc)"/><rect width="{W}" height="{H}" fill="url(#dots)"/>']
     # calendar tile
-    body.append(tile(pad, pad, lw, rh) + label(pad + 24, pad + 36, "KATKI TAKVİMİ · SON 6 AY"))
-    body.append(iso_calendar(s["weeks"], ox=pad + 24 + 7 * 16.2 + 20, oy=pad + 104))
+    body.append(tile(pad, pad, lw, rh) + label(pad + 24, pad + 36, "KATKI TAKVİMİ · SON 1 YIL"))
+    body.append(iso_calendar(s["weeks"], ox=pad + 24 + 7 * 8.4 + 12, oy=pad + 112))
     # legend
     lx = pad + lw - 24 - 5 * 18 - 30
-    body.append(T(MONO, "az", 11, lx - 6, pad + rh - 22, "#71717a", anchor="end"))
+    body.append(T(MONO, "az", 11, lx - 6, pad + 36, "#71717a", anchor="end"))
     for i, (top, _, _) in enumerate(LEVELS):
-        body.append(f'<rect x="{lx + i*18}" y="{pad + rh - 33}" width="13" height="13" rx="3" fill="{top}"/>')
-    body.append(T(MONO, "çok", 11, lx + 5 * 18 + 2, pad + rh - 22, "#71717a"))
+        body.append(f'<rect x="{lx + i*18}" y="{pad + 25}" width="13" height="13" rx="3" fill="{top}"/>')
+    body.append(T(MONO, "çok", 11, lx + 5 * 18 + 2, pad + 36, "#71717a"))
     # counters
     rx = pad + lw + g; rw = W - pad - rx; cw_ = (rw - g) / 2; chh = (rh - g) / 2
     cards = [(f'{s["total"]}', "katkı · son 1 yıl", "#a78bfa"), (f'{s["longest"]} gün', "en uzun seri", "#67e8f9"),
