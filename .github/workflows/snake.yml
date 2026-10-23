@@ -1,10 +1,9 @@
 name: Katkı yılanını üret
 
 on:
-  # Hesaptaki Actions faturalama kilidi kalkınca alttaki iki satırın başındaki # işaretini kaldır:
-  # schedule:
-  #   - cron: "0 */12 * * *"   # 12 saatte bir güncelle
-  workflow_dispatch:          # Actions sekmesinden elle çalıştırılır
+  schedule:
+    - cron: "0 */12 * * *"   # 12 saatte bir güncelle
+  workflow_dispatch:          # Actions sekmesinden elle de çalıştırılabilir
 
 permissions:
   contents: write
