@@ -92,12 +92,15 @@ Bilgisayar mühendisiyim; **web siteleri ve mobil uygulamalar** geliştiriyorum.
   <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=GurkanGurdal&layout=compact&hide_border=true&theme=tokyonight&locale=tr" alt="Diller">
 </p>
 
+<!-- KATKI YILANI: GitHub hesabındaki Actions faturalama kilidi kalkınca, Actions sekmesinden
+     "Katkı yılanını üret" iş akışını bir kez çalıştır, sonra bu yorum işaretlerini kaldır.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake-dark.svg">
     <img alt="Katkı yılanı" src="https://raw.githubusercontent.com/GurkanGurdal/GurkanGurdal/output/github-snake.svg">
   </picture>
 </p>
+-->
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=GurkanGurdal&label=Profil%20görüntülenme&color=7c3aed&style=flat-square" alt="Profil görüntülenme">
