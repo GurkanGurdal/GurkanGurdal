@@ -33,7 +33,7 @@
 </p>
 <p align="center">
   <a href="https://gurkangurdal.github.io/Dizi_Film_AI_Oneri/"><img src="./assets/ui/btn-demo.svg" height="46" alt="Canlı Demo"></a>&nbsp;
-  <a href="https://github.com/GurkanGurdal/Dizi_Film_AI_Oneri"><img src="./assets/ui/btn-code.svg" height="46" alt="Kaynak Kod"></a>
+  <a href="https://github.com/GurkanGurdal/Dizi_Film_AI_Oneri"><img src="./assets/ui/btn-detail.svg" height="46" alt="Projeyi İncele"></a>
 </p>
 
 <br>
@@ -78,7 +78,7 @@
 </p>
 <p align="center">
   <a href="https://gurkangurdal.github.io/G-rdal-Emlak-Web-Sitesi/"><img src="./assets/ui/btn-demo.svg" height="46" alt="Canlı Demo"></a>&nbsp;
-  <a href="https://github.com/GurkanGurdal/G-rdal-Emlak-Web-Sitesi"><img src="./assets/ui/btn-code.svg" height="46" alt="Kaynak Kod"></a>
+  <a href="https://github.com/GurkanGurdal/G-rdal-Emlak-Web-Sitesi"><img src="./assets/ui/btn-detail.svg" height="46" alt="Projeyi İncele"></a>
 </p>
 
 <a name="github"></a>
