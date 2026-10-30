@@ -52,11 +52,11 @@
 
 <!-- P/03 -->
 <p align="center">
-  <a href="https://github.com/GurkanGurdal/Discipline."><img src="https://raw.githubusercontent.com/GurkanGurdal/Discipline./main/docs/screenshots/cover.webp" width="49%" alt="Discipline. — puanlı, sürükle-bırak günlük planlayıcı ekran görüntüsü"></a>
+  <a href="https://apps.microsoft.com/detail/9NQGXV8B9MSH"><img src="./assets/covers/discipline.webp" width="49%" alt="Discipline. — puanlı, sürükle-bırak günlük planlayıcı ekran görüntüsü"></a>
   <img src="./assets/ui/proj-discipline.svg" width="49%" alt="Discipline. — puanlı, sürükle-bırak günlük planlayıcı">
 </p>
 <p align="center">
-  <a href="https://github.com/GurkanGurdal/Discipline."><img src="./assets/ui/btn-detail.svg" height="46" alt="Projeyi İncele"></a>
+  <a href="https://apps.microsoft.com/detail/9NQGXV8B9MSH"><img src="./assets/ui/btn-store.svg" height="46" alt="Microsoft Store'da İncele"></a>
 </p>
 
 <br>
